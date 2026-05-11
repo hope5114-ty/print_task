@@ -47,7 +47,7 @@ int isEmpty(Queue *q);
 int isFull(Queue *q);
 
 // 任务入队：添加打印任务
-int enqueue(Queue *q, PrintTask task);
+bool enqueue(Queue *q, PrintTask task);
 
 // 任务出队：移除队头任务
 int dequeue(Queue *q);

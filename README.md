@@ -14,18 +14,31 @@
 ```text
 print_task/
 ├── README.md
-├── print_task_ordinary/
+├── print_task_ordinary/    #家用打印机实现
 │   ├── print.c
 │   ├── print.h
 │   └── main.c
-├── print_task_business/
-│   ├── common.h          # 公共定义
+├── print_task_business/    #商用打印机实现
+│   ├── common.h          # 公共工具函数
 │   ├── server.c          # 上层服务器链表
 │   ├── server.h
 │   ├── local_print.c     # 下层打印机队列
 │   ├── local_print.h
 │   └── main.c
 ```
+
+## 快速开始
+
+### 环境要求
+- GCC 4.8+
+- Linux / macOS / Windows (MinGW)
+
+### 编译与运行
+- 克隆项目：git clone https://github.com/hope5114-ty/print_task
+- 选择文件夹:cd print_taskordinary  cd print_task_business
+- 编译:gcc print.c main.c -o print_task #家用打印机
+      gcc print.c main.c server.c -o print_task #商用打印机
+- 运行:./print_task
 
 ## 一、整体设计思路
 ### 1. 业务场景模拟
@@ -41,6 +54,14 @@ print_task/
     - 已开始打印的任务：无法单独撤销，只能整体中断 + 清队。
 
 #### 商用企业级打印机
+
+- **双层队列架构**：上层服务器链表（动态扩容）+ 下层硬件循环队列（固定容量），模拟真实企业级打印系统。
+- **多优先级调度**：4 级优先级队列，高优先级任务优先调度，同级别 FCFS。
+- **紧急任务抢占**：支持最高优先级任务强抢占当前打印任务，执行完后**断点续打**。
+- **动态优先级调整**：低优先级任务排队超时自动升级，彻底解决「任务饥饿」问题。
+- **权限管控系统**：区分管理员与普通用户，不同身份拥有不同的任务提交与删除权限。
+- **内存安全**：完整的动态内存申请与释放逻辑，无内存泄漏。
+
 1. 基础规则：
 - 同一时刻仍只处理 1 个任务（物理打印机构串行输出）。
 - 调度策略：优先级调度为主，同优先级遵循 FCFS。

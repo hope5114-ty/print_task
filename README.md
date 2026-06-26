@@ -35,7 +35,7 @@ print_task/
 
 ### 编译与运行
 - 克隆项目：git clone https://github.com/hope5114-ty/print_task
-- 选择文件夹:cd print_taskordinary  cd print_task_business
+- 选择文件夹:cd print_task_ordinary  cd print_task_business
 - 编译:gcc print.c main.c -o print_task #家用打印机
       gcc print.c main.c server.c -o print_task #商用打印机
 - 运行:./print_task

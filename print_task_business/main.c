@@ -13,6 +13,7 @@ static PrintServer g_server;
 // 显示菜单
 void ShowMenu(void)
 {
+    printf("\n");
     printf("\n========== 商用打印机测试 ==========\n");
     printf("1. 提交任务\n");
     printf("2. 下发任务\n");
